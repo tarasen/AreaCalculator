@@ -16,15 +16,24 @@
     [TestFixture]
     public class CircleTests
     {
+        private FigureFactory _factory;
+        private AreaCalculator _calc;
+
+        [SetUp]
+        public void SetUp()
+        {
+            _factory = new FigureFactory();
+            _calc = new AreaCalculator();
+        }
+
         [TestCase(0, 0)] // just point
         [TestCase(1, Math.PI)]
         [TestCase(10, Math.PI * 100)]
         public void CalculateArea_SomeValues_MatchResult(double radius, double expected)
         {
-            var factory = new FigureFactory();
-            var circle = factory.CreateCircle(radius);
+            var circle = _factory.CreateCircle(radius);
 
-            var area = circle.CalculateArea();
+            var area = _calc.GetArea(circle);
 
             area.Should().BeApproximately(expected, 1e-10);
         }
@@ -34,9 +43,7 @@
         [TestCase(42)]
         public void CreateCircle_NormalRadius_Created(double radius)
         {
-            var factory = new FigureFactory();
-
-            var circle = factory.CreateCircle(radius);
+            var circle = _factory.CreateCircle(radius);
 
             circle.Should().BeOfType<Circle>().And.NotBeNull();
         }
@@ -44,9 +51,7 @@
         [TestCase(-4)]
         public void CreateCircle_WrongRadius_CantCreate(double radius)
         {
-            var factory = new FigureFactory();
-
-            Assert.Throws<ArgumentOutOfRangeException>(() => factory.CreateCircle(radius));
+            Assert.Throws<ArgumentOutOfRangeException>(() => _factory.CreateCircle(radius));
         }
     }
 }

@@ -1,9 +1,10 @@
 ﻿namespace AreaCalculator
 {
     #region usings
-
-    using AreaCalculator.Figures;
+    
     using System;
+
+    using global::AreaCalculator.Figures;
 
     #endregion usings
 
